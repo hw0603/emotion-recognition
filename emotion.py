@@ -169,7 +169,7 @@ if (mode == "train"):
 
 
 # Display 모드
-elif (mode == "display"):
+else:
     # 모델 파일 이름 설정
     model_file_name = "models/emotion_83.h5"
 
@@ -200,7 +200,7 @@ elif (mode == "display"):
     cv2.ocl.setUseOpenCL(True)
 
     # DataFrame 생성
-    df = pd.DataFrame(index=labels.values())
+    df = pd.DataFrame(columns=["time", "angry", "embarrassed", "happy", "neutral", "sad"])
 
     # 카메라 피드 시작
     camera = cv2.VideoCapture(0)  # Camera_0 열기
@@ -249,6 +249,10 @@ elif (mode == "display"):
                     0.8, (0, 255, 0), 1, cv2.LINE_AA
                 )
 
+                # 인식된 softmax 배열을 DataFrame에 추가
+                a = pd.DataFrame(data=[[time.time(), yhat[0][0], yhat[0][1], yhat[0][2], yhat[0][3], yhat[0][4]]], columns=["time", "angry", "embarrassed", "happy", "neutral", "sad"])
+                df = pd.concat([df, a], ignore_index=True)
+
             print("인식 결과: " + labels[int(np.argmax(yhat))])
             for idx, emotion_type in enumerate(labels):
                 print(f"{labels[idx]}: {yhat[0][idx]*100:.2f}%")
@@ -283,6 +287,8 @@ elif (mode == "display"):
 
     camera.release()
     cv2.destroyAllWindows()
+    # DataFrame의 내용을 화면에 출력
+    print(df)
 
 """
 
