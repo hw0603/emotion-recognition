@@ -278,7 +278,11 @@ elif (mode == "display"):
 
         cv2.imshow("Emotion", full_size_image)
         cv2.imshow("Probabilities", canvas)
-        cv2.waitKey(1)
+        if (cv2.waitKey(1) & 0xFF == ord('1')):  # "1" 누르면 종료
+            break
+
+    camera.release()
+    cv2.destroyAllWindows()
 
 """
 
