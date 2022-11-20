@@ -1,0 +1,7 @@
+/한국인 감정인식 데이터
+/data
+/integ_data
+/models
+*.png
+*.jpg
+.DS_Store
